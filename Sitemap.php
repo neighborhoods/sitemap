@@ -102,6 +102,11 @@ class Sitemap
      * @var XMLWriter
      */
     private $writer;
+    
+    /**
+     * @var dateFormat
+     */
+    private $dateFormat = 'c';
 
     /**
      * @param string $filePath path of the file to write to
@@ -312,7 +317,7 @@ class Sitemap
         $this->writer->writeElement('loc', $location);
 
         if ($lastModified !== null) {
-            $this->writer->writeElement('lastmod', date('c', $lastModified));
+            $this->writer->writeElement('lastmod', date($this->dateFormat, $lastModified));
         }
 
         if ($changeFrequency !== null) {
@@ -361,7 +366,7 @@ class Sitemap
             $this->writer->writeElement('loc', $url);
 
             if ($lastModified !== null) {
-                $this->writer->writeElement('lastmod', date('c', $lastModified));
+                $this->writer->writeElement('lastmod', date($this->dateFormat, $lastModified));
             }
 
             if ($changeFrequency !== null) {
@@ -516,5 +521,14 @@ class Sitemap
         } else {
             $this->stylesheet = $stylesheetUrl;
         }
+    }
+    
+    /**
+     * Allow to choose the date format pattern
+     * @param string DateTimeInterface::format pattern
+     */
+    public function setDateFormat($dateFormat)
+    {
+        $this->dateFormat = $dateFormat;
     }
 }
